@@ -10,6 +10,21 @@ import (
 const (
 	// Path 配置 & .db 目录
 	Path = "data"
+
+	// 内置的默认配置
+	defaultConfig = `{
+    "type": "sqlite",
+    "host": "localhost",
+    "port": "3306",
+    "user": "root",
+    "password": "",
+    "database": "",
+    "db_file": "mfa.db",
+    "table_prefix": "",
+    "max_idle_conn": 10,
+    "max_open_conn": 100,
+    "conn_max_lifetime": 3600
+  }`
 )
 
 // Config 定义数据库配置结构体，用于支持 MySQL 或 SQLite
@@ -87,28 +102,12 @@ func LoadOrCreateConfig(examplePath string) (*Config, error) {
 
 	// 检查配置文件是否存在
 	if _, err = os.Stat(configPath); os.IsNotExist(err) {
-		// 配置文件不存在，尝试从示例文件复制
-		var srcFile *os.File
-		srcFile, err = os.Open(examplePath)
-		if err != nil {
-			return nil, fmt.Errorf("无法打开示例配置文件 %s: %w", examplePath, err)
-		}
-		defer srcFile.Close()
-
-		var destFile *os.File
-		destFile, err = os.Create(configPath)
-		if err != nil {
-			return nil, fmt.Errorf("无法创建配置文件 %s: %w", configPath, err)
-		}
-		defer destFile.Close()
-
-		// 将示例文件内容复制到新创建的配置文件
-		if _, err = destFile.ReadFrom(srcFile); err != nil {
-			return nil, fmt.Errorf("复制示例配置文件失败: %w", err)
+		if err = os.WriteFile(configPath, []byte(defaultConfig), 0644); err != nil {
+			return nil, fmt.Errorf("创建默认配置文件失败: %w", err)
 		}
 
 		// 提示用户修改配置文件后重新运行程序
-		fmt.Printf("未找到配置文件 %s，已从 %s 创建新文件。\n", configPath, examplePath)
+		fmt.Printf("未找到配置文件 %s，已自动创建默认配置文件，内容如下：\n%s\n", configPath, defaultConfig)
 
 		// 这里不退出，直接加载刚创建的配置文件
 		// os.Exit(0)
