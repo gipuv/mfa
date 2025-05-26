@@ -19,7 +19,7 @@ func GenerateTOTP(secret string, timestep int64) (string, error) {
 	secret = padBase32Secret(secret)
 
 	// 使用无填充的 Base32 解码成字节数组（密钥的二进制形式）
-	secretKey, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
+	secretKey, err := base32.StdEncoding.DecodeString(secret)
 	if err != nil {
 		return "", fmt.Errorf("Base32解码失败: %w", err)
 	}
