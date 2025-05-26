@@ -9,11 +9,12 @@ import (
 
 	"github.com/gipuv/mfa/database"
 	"github.com/gipuv/mfa/totp"
+	"github.com/gipuv/mfa/util"
 )
 
 // isValidSecret 简单验证secret是否为合法的Base32字符串
 func isValidSecret(secret string) bool {
-	secret = strings.ToUpper(secret)
+	secret = util.PadBase32Secret(strings.ToUpper(secret))
 	_, err := base32.StdEncoding.DecodeString(secret)
 	return err == nil
 }

@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 	"testing"
+
+	"github.com/gipuv/mfa/util"
 )
 
 func TestInteractive(t *testing.T) {
@@ -11,12 +12,7 @@ func TestInteractive(t *testing.T) {
 
 	for _, s := range tests {
 		// 去除空格，转大写
-		// totp.padBase32Secret
-		s = strings.ToUpper(strings.ReplaceAll(s, " ", ""))
-		missing := len(s) % 8
-		if missing != 0 {
-			s += strings.Repeat("=", 8-missing) // 补齐 '='
-		}
+		s = util.PadBase32Secret(s)
 		fmt.Printf("%q valid? %v\n", s, isValidSecret(s))
 	}
 }

@@ -6,8 +6,9 @@ import (
 	"encoding/base32"
 	"encoding/binary"
 	"fmt"
-	"strings"
 	"time"
+
+	"github.com/gipuv/mfa/util"
 )
 
 // GenerateTOTP 生成基于时间的一次性密码（TOTP）
@@ -16,7 +17,7 @@ import (
 // 返回6位数字验证码，或错误
 func GenerateTOTP(secret string, timestep int64) (string, error) {
 	// 先补齐 Base32 密钥，确保长度是8的倍数（Base32编码要求）
-	secret = padBase32Secret(secret)
+	secret = util.PadBase32Secret(secret)
 
 	// 使用无填充的 Base32 解码成字节数组（密钥的二进制形式）
 	secretKey, err := base32.StdEncoding.DecodeString(secret)
@@ -53,18 +54,6 @@ func GenerateTOTP(secret string, timestep int64) (string, error) {
 	return fmt.Sprintf("%06d", code), nil
 }
 
-// padBase32Secret 用于确保 base32 编码的 secret 长度为8的倍数，不足补 '='
-// base32 解码要求长度必须是8的倍数，补齐后方便解码
-func padBase32Secret(secret string) string {
-	// 去除空格，转大写
-	secret = strings.ToUpper(strings.ReplaceAll(secret, " ", ""))
-	missing := len(secret) % 8
-	if missing != 0 {
-		secret += strings.Repeat("=", 8-missing) // 补齐 '='
-	}
-	return secret
-}
-
 // ValidateTOTP 验证用户输入的验证码是否正确，允许当前时间步长前后各一个步长的误差
 // secret: base32 密钥
 // code: 用户输入的6位验证码
@@ -88,7 +77,7 @@ func ValidateTOTP(secret, code string, timestep int64) bool {
 // 返回6位验证码或错误
 func GenerateTOTPWithTime(secret string, timestep int64, t time.Time) (string, error) {
 	// 同 GenerateTOTP，只不过计数器改为 t.Unix()/timestep
-	secret = padBase32Secret(secret)
+	secret = util.PadBase32Secret(secret)
 	secretKey, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
 	if err != nil {
 		return "", fmt.Errorf("Base32解码失败: %w", err)
