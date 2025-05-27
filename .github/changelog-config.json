@@ -1,0 +1,18 @@
+{
+    "template": "# 🚀 更新日志\n\n## 📝 改动列表\n{{CHANGELOG}}\n\n👉 比较差异: {{COMPARE_URL}}",
+    "categories": [
+        {
+            "title": "✨ Features / 新功能",
+            "labels": ["feature", "enhancement"]
+        },
+        {
+            "title": "🐛 Fixes / 修复",
+            "labels": ["bug"]
+        },
+        {
+            "title": "🧰 其他更新",
+            "labels": ["chore", "refactor", "docs"]
+        }
+    ],
+    "pr_template": "- {{title}} (#{{number}}) by @{{author}}"
+}
