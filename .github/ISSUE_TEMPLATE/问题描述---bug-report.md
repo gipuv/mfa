@@ -9,22 +9,14 @@ assignees: gipuv
 
 **复现步骤 / To Reproduce**
 
-1. 做了什么操作？
-2. 点击了什么？
-3. 发生了什么？
-
-Steps to reproduce the issue:
-
-1. What did you do?
-2. What did you click?
-3. What happened?
+1. 做了什么操作？/ What did you do?
+2. 点击了什么？ / What did you click?
+3. 发生了什么？ / What happened?
 
 ---
 
 **预期结果 / Expected behavior**
-你期望发生什么？
-
-What did you expect to happen?
+你期望发生什么？/ What did you expect to happen?
 
 ---
 
@@ -37,6 +29,4 @@ What did you expect to happen?
 ---
 
 **补充信息 / Additional context**
-其他需要说明的内容。
-
-Any other context or screenshots about the issue.
+其他需要说明的内容。 / Any other context or screenshots about the issue.
