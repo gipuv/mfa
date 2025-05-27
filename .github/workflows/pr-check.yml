@@ -15,15 +15,15 @@ jobs:
           script: |
             const body = context.payload.pull_request.body || "";
 
+            // 支持任意级标题匹配
             function checkRequiredSection(section) {
-              const regex = new RegExp(`##\\s*${section}`, 'i');
+              const regex = new RegExp(`#++\\s*${section}`, 'i');
               return regex.test(body);
             }
 
+            // 检查“变更类型”部分是否至少勾选一项
             function checkCheckboxChecked() {
-              // 检查变更类型中至少有一项被勾选
-              // 简单匹配 - [ ] => unchecked，- [x] 或 - [X] => checked
-              const changeTypeSectionMatch = body.match(/##\s*变更类型[\s\S]*?(?=##|$)/i);
+              const changeTypeSectionMatch = body.match(/#+\s*变更类型[\s\S]*?(?=#+|$)/i);
               if (!changeTypeSectionMatch) return false;
               const changeTypeSection = changeTypeSectionMatch[0];
               return /- \[[xX]\]/.test(changeTypeSection);
