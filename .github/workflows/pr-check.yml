@@ -17,7 +17,7 @@ jobs:
 
             // 支持任意级标题匹配
             function checkRequiredSection(section) {
-              const regex = new RegExp(`#++\\s*${section}`, 'i');
+              const regex = new RegExp(`#+\\s*${section}`, 'i');
               return regex.test(body);
             }
 
