@@ -1,0 +1,44 @@
+name: PR Description Lint
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  check-pr-description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR description
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body = context.payload.pull_request.body || "";
+
+            function checkRequiredSection(section) {
+              const regex = new RegExp(`##\\s*${section}`, 'i');
+              return regex.test(body);
+            }
+
+            function checkCheckboxChecked() {
+              // 检查变更类型中至少有一项被勾选
+              // 简单匹配 - [ ] => unchecked，- [x] 或 - [X] => checked
+              const changeTypeSectionMatch = body.match(/##\s*变更类型[\s\S]*?(?=##|$)/i);
+              if (!changeTypeSectionMatch) return false;
+              const changeTypeSection = changeTypeSectionMatch[0];
+              return /- \[[xX]\]/.test(changeTypeSection);
+            }
+
+            if (!checkRequiredSection("变更描述")) {
+              core.setFailed("❌ 变更描述（Required）部分未填写，请补充！\n❌ Change Description (Required) section is missing, please complete it!");
+            }
+
+            if (!checkRequiredSection("变更类型")) {
+              core.setFailed("❌ 变更类型部分未填写，请补充！\n❌ Change Type section is missing, please complete it!");
+            } else if (!checkCheckboxChecked()) {
+              core.setFailed("❌ 请至少勾选一个变更类型（✨新功能/🐛修复/🧰其他更新）\n❌ Please check at least one change type (✨Feature / 🐛Bug Fix / 🧰Others)");
+            }
+
+            if (!checkRequiredSection("检查清单")) {
+              core.setFailed("❌ 检查清单部分未填写，请补充！\n❌ Checklist section is missing, please complete it!");
+            }

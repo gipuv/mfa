@@ -32,7 +32,8 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           mkdir -p dist
-          FILENAME=myapp-${GOOS}-${GOARCH}
+          DATE=$(date +%Y%m%d)  # 格式为 20250527
+          FILENAME=mfa-${DATE}-${GOOS}-${GOARCH}
           if [ "$GOOS" = "windows" ]; then
             FILENAME="${FILENAME}.exe"
           fi
@@ -50,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }} - TOTP and MFA in Go.
           body: ${{ steps.changelog.outputs.changelog }}
           files: dist/*
         env:
