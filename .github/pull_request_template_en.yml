@@ -1,0 +1,16 @@
+type: # Change Type (Required)
+  - feature     # ✨ Feature
+  - bugfix      # 🐛 Bug Fix
+  - chore       # 🧰 Chore / Refactor / Docs
+
+description: |
+  # Description (Required)
+  # Briefly describe the changes and the purpose.
+
+related_issue: "#123"  # Related issue number
+
+checklist:
+  - local_build_passed: false
+  - unit_tests_passed: false
+  - code_style_checked: false
+  - docs_updated: false

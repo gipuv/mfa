@@ -1,0 +1,17 @@
+type: # 变更类型（必填 / Required）
+  - feature     # ✨ 新功能（feature / 新功能）
+  - bugfix      # 🐛 修复（bug / Bug Fix）
+  - chore       # 🧰 其他更新（chore / refactor / docs）
+
+description: |
+  # 变更描述（必填 / Required）
+  # 简要说明本次变更内容和目的。
+  # Briefly describe the changes and purpose.
+
+related_issue: "#123"  # 相关 issue / Related Issue
+
+checklist:  # 检查清单 / Checklist
+  - local_build_passed: false     # 本地编译通过 / Local build passed
+  - unit_tests_passed: false      # 单元测试通过 / Unit tests passed
+  - code_style_checked: false     # 代码规范符合要求 / Code style conforms to guidelines
+  - docs_updated: false           # 文档更新完成（如有）/ Documentation updated (if applicable)
