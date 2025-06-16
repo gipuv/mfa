@@ -1,4 +1,4 @@
-# Docs: https://git.io/JCUAY
+# Docs: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
 version: 2
 updates:
   - package-ecosystem: "gomod"
