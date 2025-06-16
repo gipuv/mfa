@@ -3,7 +3,7 @@ module github.com/gipuv/mfa
 go 1.24
 
 require (
-	github.com/go-sql-driver/mysql v1.9.2
+	github.com/go-sql-driver/mysql v1.9.3
 	modernc.org/sqlite v1.37.1
 )
 
